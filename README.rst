@@ -18,6 +18,11 @@ Links
 - Project: https://github.com/olucurious/pyfcm
 - PyPi: https://pypi.python.org/pypi/pyfcm/
 
+Looking for a Django version?
+-----------------------------
+Checkout fcm-django
+- Link: https://github.com/xtrinch/fcm-django
+
 Updates
 -------
 
@@ -129,6 +134,14 @@ Send a low priority message.
     # The default is low_priority == False
     result = push_service.notify_multiple_devices(registration_ids=registration_ids, message_body=message, low_priority=True)
 
+Get valid registration ids (useful for cleaning up invalid registration ids in your database)
+
+.. code-block:: python
+
+    registration_ids = ['reg id 1', 'reg id 2', 'reg id 3', 'reg id 4', ...]
+    valid_registration_ids = push_service.clean_registration_ids(registration_ids)
+    # Shoutout to @baali for this
+
 Sending a message to a topic.
 
 .. code-block:: python
@@ -203,7 +216,7 @@ The MIT License (MIT). Please see LICENSE.rst for more information.
 
 ::
 
-    Copyright (c) 2016 Emmanuel Adegbite
+    Copyright (c) 2017 Emmanuel Adegbite
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
     files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,

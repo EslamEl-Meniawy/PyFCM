@@ -181,7 +181,7 @@ class BaseAPI(object):
         if 'Retry-After' in response.headers and int(response.headers['Retry-After']) > 0:
             sleep_time = int(response.headers['Retry-After'])
             time.sleep(sleep_time)
-            self.do_request(payload)
+            return self.do_request(payload)
         return response
 
     def send_request(self, payloads=None):
@@ -189,6 +189,19 @@ class BaseAPI(object):
         for payload in payloads:
             response = self.do_request(payload)
             self.send_request_responses.append(response)
+
+    def clean_registration_ids(self, registration_ids=[]):
+        """Return list of active IDS from the list of registration_ids
+
+        """
+        valid_registration_ids = []
+        for registration_id in registration_ids:
+            details = requests.get('https://iid.googleapis.com/iid/info/'+registration_id,
+                                   headers=self.request_headers(),
+                                   params={'details':'true'})
+            if details.status_code == 200:
+                valid_registration_ids.append(registration_id)
+        return valid_registration_ids
 
     def parse_responses(self):
         response_list = list()
